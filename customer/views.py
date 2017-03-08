@@ -9,3 +9,9 @@ def index(request):
 
 def addRide(request):
 	print "inside add ride"
+	customer_id = request.data['customer_id']
+
+	p = Ride.objects.get(customerID='customer')
+	if not p:
+		new_ride = Ride(customerID=customer_id, iswaiting=True)
+		new_ride.save()

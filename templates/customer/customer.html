@@ -18,7 +18,7 @@
 </head>
 
 <body>
-
+{% csrf_token %}
 <div class="container-fluid">
     <form class="form-signin">
         <h2 class="form-signin-heading">Enter Customer Id</h2>
@@ -36,13 +36,15 @@ $(document).on("click", ".ride-button", function() {
     console.log('reached here');
     var customerID = $(this).parent().find('.form-control').val();
     console.log(customerID);
-    var data = {'customerid': customerID};
+    var data = {};
+    data['customerid'] = customerID;
+    data['_csrf'] = $("input[name=csrfmiddlewaretoken]").val();
     $.ajax({
         method: "POST",
         url: '/customer/add-ride/',
         data: data,
         beforeSend: function(xhr) {
-            xhr.setRequestHeader("X-CSRFToken", $("input[name=csrfmiddlwwaretoken]").val());
+            xhr.setRequestHeader("X-CSRFToken", $("input[name=csrfmiddlewaretoken]").val());
         },
         success: function(resp) {
             console.log("success");
