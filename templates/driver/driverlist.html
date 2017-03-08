@@ -1,0 +1,62 @@
+
+    <div class="row">
+    <div class="col-md-4"><strong>WAITING</strong></div>
+    <div class="col-md-4"><strong>ONGOING</strong></div>
+    <div class="col-md-4"><strong>COMPLETED</strong></div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <table class="table table-bordered">
+                <tbody>
+                    {% for obj in waiting_list %}
+                    <tr>
+                        <td>Req ID:{{obj.request_id}}</td>
+                        <td>Cust ID:{{obj.customer_id}}</td>
+                    </tr>
+                    <tr>
+                        <td>Time:{{obj.time_elapsed}}</td>
+                        <td><button type="button" data-id="{{obj.request_id}}" data-driver="{{driver_id}}" class="btn btn-primary ride-accept">Select</button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+                <table class="table table-bordered" ng-hide="isCompleted(request.acceptTime)">
+                    <tbody>
+                    {% for obj in ongoing_list %}
+                    <tr>
+                        <td>Req ID:{{obj.request_id}}</td>
+                        <td>Cust ID:{{obj.customer_id}}</td>
+                    </tr>
+                    <tr>
+                        <td>Request: {{obj.request_time_elapsed}} mins ago</td>
+                        <td>Accept: {{obj.ongoing_time_elapsed}} mins ago</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <table class="table table-bordered" ng-show="isCompleted(request.acceptTime)">
+                <tbody>
+                {% for obj in completed_list %}
+                <tr>
+                    <td>Req ID:{{obj.request_id}}</td>
+                    <td>Cust ID:{{obj.customer_id}}</td>
+                </tr>
+                <tr>
+                    <td>Request: {{obj.request_time_elapsed}}</td>
+                    <td>Accept: {{obj.pickedup_time_elapsed}} mins ago</td>
+                </tr>
+                <tr>
+                    <td>Completed: {{obj.completed_time_elapsed}} mins ago </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+    </div>

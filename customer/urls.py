@@ -4,6 +4,6 @@ print "reachers customer urls.py file"
 #import views
 
 urlpatterns = [
-	url(r'^add-ride/', 'customer.views.addRide', name='addRide'),
+	url(r'^add-ride/', 'customer.views.RequestRide', name='RequestRide'),
 	url(r'^$', 'customer.views.index', name='index'),
 ]

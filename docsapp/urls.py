@@ -17,10 +17,11 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from customer import urls as customer_urls
-#from driver import urls as driver_urls
+from driver import urls as driver_urls
 
 urlpatterns = [
     url(r'^customer/', include(customer_urls)),
+    url(r'^driver/', include(driver_urls)),
     #url(r'^driver/', include('driver_urls')),
     #url(r'^admin/', include(admin.site.urls))
     url(r'^$', 'docsapp.views.home', name='home'),

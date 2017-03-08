@@ -20,12 +20,10 @@
 <body>
 {% csrf_token %}
 <div class="container-fluid">
-    <form class="form-signin">
         <h2 class="form-signin-heading">Enter Customer Id</h2>
-        <input type="number" ng-model="customerId" id="customerId" class="form-control" placeholder="Customer Id" required autofocus>
+        <input type="number" id="customerId" class="form-control" placeholder="Customer Id" required autofocus>
 
-        <button class="btn btn-lg btn-primary btn-block ride-button" ng-click="requestRide()">RIDE NOW</button>
-    </form>
+        <button class="btn btn-lg btn-primary btn-block ride-button">RIDE NOW</button>
 </div>
 </body>
 </html>
@@ -39,6 +37,7 @@ $(document).on("click", ".ride-button", function() {
     var data = {};
     data['customerid'] = customerID;
     data['_csrf'] = $("input[name=csrfmiddlewaretoken]").val();
+    console.log(data);
     $.ajax({
         method: "POST",
         url: '/customer/add-ride/',

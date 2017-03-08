@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>docsapp</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/newstyle.css">
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Docsapp</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Driver</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+{% csrf_token %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">Driver Info</div>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-12 barChart">
+                    <div class="form-group">
+                        <label for="driverId">Driver Id:</label>
+                        <input type="number" class="form-control" id="driverId" placeholder="driver id">
+                        <button class="btn btn-primary driver-data" >Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="request_list">
+        
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/JavaScript">
+
+$(document).on("click", ".driver-data", function() {
+    
+    var driver_id = $(this).parent().find('#driverId').val();
+    var data = {};
+    //data['driverid'] = driver_id;
+    data['_csrf'] = $("input[name=csrfmiddlewaretoken]").val();
+    $.ajax({
+        method: "POST",
+        url: '/driver/' + driver_id + '/',
+        data: data,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", $("input[name=csrfmiddlewaretoken]").val());
+        },
+        success: function(resp, data) {
+            var rendered_html = resp;
+            $('.request_list').append(rendered_html);
+        },
+        error: function(error) {
+            console.log('error');
+            console.log(error);
+        }
+    });
+});
+
+$(document).on("click", ".ride-accept", function() {
+    console.log('reached here ride accept');
+    var req_id = $(this).data('id');
+    var driver_id = $(this).data("driver");
+    console.log(driver_id);
+    var data = {};
+    var url = '/driver/' + driver_id + '/' + req_id + '/';
+    //data['driverid'] = driver_id;
+    data['_csrf'] = $("input[name=csrfmiddlewaretoken]").val();
+    $.ajax({
+        method: "POST",
+        url: url,
+        data: data,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", $("input[name=csrfmiddlewaretoken]").val());
+        },
+        success: function(resp) {
+            console.log("success");
+            console.log(resp);
+        },
+        error: function(error) {
+            console.log('error');
+            console.log(error);
+        }
+    });
+});
+
+</script>
