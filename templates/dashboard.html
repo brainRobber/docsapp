@@ -1,7 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
- 
+    <meta charset="UTF-8">
+    <title>docsapp</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/newstyle.css">
 
 </head>
 <body>
@@ -36,16 +48,19 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="request in requests">
-      <td>{{request.requestId}}</td>
-      <td>{{request.customerId}}</td>
-      <td>{{request.isWaiting=="YES" ? getTime(request.requestTime): getTime(request.acceptTime)}}</td>
-      <td>{{request.isWaiting=="YES"?"Waiting":getStatus(request.acceptTime)}}</td>
-      <td>{{request.driverId==0?"None":request.driverId}}</td>
+    {% for ride in rides %}
+    <tr>
+      <td>{{ride.request_id}}</td>
+      <td>{{ride.customer_id}}</td>
+      <td>{{ride.time_elapsed}} mins</td>
+      <td>{{ride.status}}</td>
+      <td>{% if ride.driver_id == 0 %}None{% else %}{{ride.driver_id}}{% endif %}</td>
     </tr>
+    {% endfor %}
     </tbody>
   </table>
-  <button type="button" ng-click="refresh()" class="btn btn-primary">Refresh</button>
+  <!-- <button type="button" class="btn btn-primary">Refresh</button> -->
+  <button type="button" class=""btn btn-primary" onClick="window.location.reload();">Refresh</button>
 </div>
 </body>
 </html>

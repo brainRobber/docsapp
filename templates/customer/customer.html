@@ -46,8 +46,12 @@ $(document).on("click", ".ride-button", function() {
             xhr.setRequestHeader("X-CSRFToken", $("input[name=csrfmiddlewaretoken]").val());
         },
         success: function(resp) {
-            console.log("success");
-            console.log(resp);
+            if (resp.status == 'error') {
+                alert(resp.error);
+            } 
+            if (resp.status == 'success') {
+                alert("Ride request successfully placed");
+            }
         },
         error: function(error) {
             console.log('error');

@@ -82,15 +82,25 @@ def DriverStatus(request, driver_id):
 def accept_request(request, driver_id, req_id):
 	resp = {}
 	error = {}
+	
+	count_rides = Ride.objects.filter(isCompleted=0, DriverID=driver_id).count()
+	if count_rides > 0:
+		resp['status'] = 'error'
+		resp['error'] = "Driver can only serve 1 request at a time"
+		return HttpResponse(json.dumps(resp), content_type='application/json')
+
 	ride_obj = Ride.objects.get(RequestID=req_id)
 	
-	if ride_obj.DriverID == 0:
-		ride_obj.DriverID = driver_id
-		ride_obj.AcceptTime = timezone.now()
-		ride_obj.save()
-	else:
-		error_msg = 'Sorry, this ride has been picked by some other driver.'
 
+	if ride_obj.DriverID > 0:
+		resp['status'] = 'error'
+		resp['error'] = 'This request is already taken by some other driver'
+		return HttpResponse(json.dumps(resp), content_type='application/json')		
+
+	ride_obj.DriverID = driver_id
+	ride_obj.AcceptTime = timezone.now()
+	ride_obj.save()
+	
 	resp['status'] = 'success'
 	return HttpResponse(json.dumps(resp), content_type='application/json')
 # Create your views here.

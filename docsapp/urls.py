@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^driver/', include(driver_urls)),
     #url(r'^driver/', include('driver_urls')),
     #url(r'^admin/', include(admin.site.urls))
-    url(r'^$', 'docsapp.views.home', name='home'),
+    url(r'^$', 'docsapp.views.Dashboard', name='home'),
 ]

@@ -16,28 +16,24 @@ def index(request):
 def RequestRide(request):
 	resp = {}
 	error = False
-	print "inside add ride"
-	print request.POST
-	print "after this"
-	print request.POST['customerid']
-	print 'hello'
+	
 	customer_id = request.POST['customerid']  
-	print customer_id
-	#p = Ride.objects.get(customerID='customer')
+	ride = Ride.objects.filter(CustomerID=customer_id, isCompleted=0)
+	if ride:
+		resp['status'] = 'error'
+		resp['error'] = 'Previous request already pending'
+		return HttpResponse(json.dumps(resp), content_type='application/json')
+
 	try:
 		new_ride = Ride(CustomerID=customer_id, isCompleted=0, DriverID=0)
 		new_ride.save()
-		print "got in db"
 	except Exception, e:
 		print 'error occured %s'%e
 		error = True
-		print "yaha nhi aya"
-	#else:
-	#print "You have already booked a ride and ur request is under process"
 	if error == False:
 		resp['status'] = 'success'
 	else:
-		resp['status'] = 'Error'
-	print resp
-	
+		resp['status'] = 'error'
+		resp['error'] = 'Some random error occured'
+
 	return HttpResponse(json.dumps(resp), content_type='application/json')
